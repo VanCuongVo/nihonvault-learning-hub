@@ -1,0 +1,11 @@
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
+sqlalchemy[asyncio]>=2.0.0
+greenlet>=3.0.0 # để phối hợp giữa cách viết đồng bộ và bất đồng bộ.
+asyncpg>=0.30.0
+pydantic-settings>=2.0.0
+alembic>=1.13.0 # Migration
+python-dotenv>=1.0.0
+
+pyjwt>=2.8.0 # Xử lý JWT Token (Access & Refresh token)
+bcrypt>=4.0.0 # Băm mật khẩu an toàn
