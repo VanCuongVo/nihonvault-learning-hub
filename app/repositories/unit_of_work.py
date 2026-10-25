@@ -18,6 +18,7 @@ class UnitOfWork(IUnitOfWork):
             raise RuntimeError("UnitOfWork chưa được khởi tạo (phải dùng 'async with')")
         return self._users
 
+    # khỏi tạo uow đi 
     async def __aenter__(self) -> "UnitOfWork":
         self.db = AsyncSessionLocal()
         self._users = AuthRepository(self.db)

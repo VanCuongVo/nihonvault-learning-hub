@@ -8,10 +8,11 @@ T = TypeVar("T", bound=Base)
 
 
 class GenericRepository(IRepository[T], Generic[T]):
-
+    
+    # self là đối tượng hiện tại giống vs this 
     def __init__(self, db: AsyncSession, model: type[T]):
         self.db = db
-        self.model = model
+        self.model = model 
 
     async def get_by_id(self, entity_id: int) -> T | None:
         return await self.db.get(self.model, entity_id)

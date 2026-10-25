@@ -1,7 +1,6 @@
-from collections.abc import Callable
-from datetime import datetime, timedelta, timezone
+from collections.abc import Callable # thư viên dùng để cho phép truyền vào tham số hoặc có thẻ trả về một đối tượng
+from datetime import datetime, timezone
 import os
-import jwt
 from app.services.interfaces.auth_service import IAuthService
 from app.repositories.interfaces.unit_of_work import IUnitOfWork
 from app.repositories.unit_of_work import UnitOfWork
@@ -15,6 +14,7 @@ from app.models.user import User
 from app.validators.password_hash import PasswordHasher
 from app.core.jwt_manager import JWTManager
 
+# đọc từ biến môi trường thông qua thư viên OS
 SECRET_KEY = os.getenv("JWT_SECRET_KEY", "nihonvault_default_secret_key_change_me")
 ALGORITHM = "HS256"
 
@@ -28,6 +28,7 @@ class AuthService(IAuthService):
         email = str(request.email).strip().lower()
         username = request.username.strip()
 
+        # UOW để tiến hành thực hiện cái trans
         async with self.uow_factory() as uow:
             existing_email = await uow.users.get_by_email(email)
             if existing_email:
@@ -47,6 +48,7 @@ class AuthService(IAuthService):
             await uow.users.add(user)
             await uow.commit()
 
+            # hasattr dùng để kiểm tra user có role ko
             role_val = (
                 user.role.value if hasattr(user.role, "value") else str(user.role)
             )
@@ -69,8 +71,7 @@ class AuthService(IAuthService):
                 request.password, user.hashed_password
             ):
                 raise ValueError("Email hoặc mật khẩu không đúng")
-
-            now = datetime.now(timezone.utc)
+            
             role_val = (
                 user.role.value if hasattr(user.role, "value") else str(user.role)
             )

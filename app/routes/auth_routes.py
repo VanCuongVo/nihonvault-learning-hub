@@ -15,10 +15,7 @@ router = APIRouter(
     prefix="/auth",
     tags=["Authentication"]
 )
-
 # auth_service = AuthService()
-
-
 @router.post(
     "/register",
     response_model=APIResponse[UserResponse],
