@@ -1,9 +1,11 @@
 from types import TracebackType
 from sqlalchemy.ext.asyncio import AsyncSession
+from app.repositories.interfaces.vocabulary_repository import IVocabularyRepository
 from app.core.database import AsyncSessionLocal
 from app.repositories.interfaces.unit_of_work import IUnitOfWork
 from app.repositories.interfaces.auth_repository import IAuthRepository
 from app.repositories.auth_repository import AuthRepository
+from app.repositories.vocabulary_repository import VocabularyRepository
 
 
 class UnitOfWork(IUnitOfWork):
@@ -11,6 +13,13 @@ class UnitOfWork(IUnitOfWork):
     def __init__(self):
         self.db: AsyncSession | None = None
         self._users: IAuthRepository | None = None
+        self._vocabularies: IVocabularyRepository | None = None 
+        
+    @property
+    def vocabularies(self) -> IVocabularyRepository:
+        if self._vocabularies is None:
+            raise RuntimeError("UnitOfWork chưa được khởi tạo (phải dùng 'async with')")
+        return self._vocabularies
 
     @property
     def users(self) -> IAuthRepository:
@@ -22,6 +31,7 @@ class UnitOfWork(IUnitOfWork):
     async def __aenter__(self) -> "UnitOfWork":
         self.db = AsyncSessionLocal()
         self._users = AuthRepository(self.db)
+        self._vocabularies = VocabularyRepository(self.db)
         return self
 
     async def commit(self) -> None:

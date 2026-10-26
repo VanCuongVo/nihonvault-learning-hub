@@ -1,3 +1,4 @@
 from app.enums.UserRole import UserRole
 
-__all__ = ["UserRole"]
+__all__ = ["UserRole", "JLPTLevel", "PartOfSpeech"]
+

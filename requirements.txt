@@ -6,6 +6,7 @@ asyncpg>=0.30.0
 pydantic-settings>=2.0.0
 alembic>=1.13.0 # Migration
 python-dotenv>=1.0.0
-
 pyjwt>=2.8.0 # Xử lý JWT Token (Access & Refresh token)
 bcrypt>=4.0.0 # Băm mật khẩu an toàn
+python-multipart>=0.0.32
+openpyxl>=3.1.2

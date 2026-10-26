@@ -1,9 +1,15 @@
 from abc import ABC, abstractmethod
 from types import TracebackType
+from app.repositories.interfaces.vocabulary_repository import IVocabularyRepository
 from app.repositories.interfaces.auth_repository import IAuthRepository
 
 
 class IUnitOfWork(ABC):
+    
+    @property
+    @abstractmethod
+    def vocabularies(self) -> IVocabularyRepository:
+        pass
 
     @property
     @abstractmethod

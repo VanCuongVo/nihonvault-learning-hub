@@ -38,4 +38,14 @@ class User(Base):
     # Quan hệ 1-N với RefreshToken
     refresh_tokens: Mapped[List["RefreshToken"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
+        
+    )
+    
+     # 2. Quan hệ quản trị: Nội dung do User này soạn/tạo
+    created_kanjis: Mapped[List["Kanji"]] = relationship(back_populates="creator")
+    created_vocabularies: Mapped[List["Vocabulary"]] = relationship(back_populates="creator")
+    created_grammars: Mapped[List["Grammar"]] = relationship(back_populates="creator")
+    # 3. Quan hệ học tập: Sổ tay bookmark cá nhân của User
+    bookmarks: Mapped[List["UserBookmark"]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
     )

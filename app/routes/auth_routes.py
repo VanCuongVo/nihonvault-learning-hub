@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, status, Depends
+from dependencies import get_current_user
 
 from dependencies import get_auth_service
 from app.schemas.auth import (
@@ -15,6 +16,14 @@ router = APIRouter(
     prefix="/auth",
     tags=["Authentication"]
 )
+
+@router.get("/me")
+async def get_me(current_user: dict = Depends(get_current_user)):
+    """Endpoint yêu cầu phải có Bearer Token mới xem được."""
+    return {
+        "success": True,
+        "data": current_user
+    }
 # auth_service = AuthService()
 @router.post(
     "/register",

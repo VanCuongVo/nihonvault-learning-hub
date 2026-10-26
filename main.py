@@ -6,6 +6,7 @@ from app.core.config import settings
 from app.core.database import engine
 from dependencies import get_db
 from app.routes.auth_routes import router as auth_router  
+from app.routes.vocabulary_routes import router as vocab_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -27,6 +28,7 @@ app = FastAPI(
 )
 
 app.include_router(auth_router)
+app.include_router(vocab_router)
 
 @app.get("/")
 async def root():
